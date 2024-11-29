@@ -69,6 +69,7 @@ class AbsensiController extends Controller
     // Menampilkan detail absensi
     public function show(Absensi $absensi)
     {
-        return view('absensi.show', compact('absensi'));
+        $absensis = Absensi::all();
+        return view('absensi.show', compact('absensis'));
     }
 }

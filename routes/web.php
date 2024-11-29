@@ -30,6 +30,7 @@ Route::middleware([
     Route::get('/absensi', [AbsensiController::class, 'index'])->name('absensi.index'); // Menampilkan daftar absensi
     Route::get('/absensi/create', [AbsensiController::class, 'create'])->name('absensi.create'); // Menampilkan form absensi
     Route::post('/absensi', [AbsensiController::class, 'store'])->name('absensi.store'); // Menyimpan data absensi
+    Route::get('/absensi/show',[AbsensiController::class,'show'])->name('absensi.show');
     Route::resource('absensi', AbsensiController::class);
     
     // Route Admin
