@@ -28,11 +28,15 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Menggunakan CreateNewUser untuk proses pendaftaran
         Fortify::createUsersUsing(CreateNewUser::class);
+
+        // Menggunakan action lainnya untuk update profile, reset password, dll.
         Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
         Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
 
+        // Pengaturan rate limiting untuk login dan two-factor authentication
         RateLimiter::for('login', function (Request $request) {
             $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())).'|'.$request->ip());
 

@@ -18,6 +18,8 @@ class Absensi extends Model
         'longitude', 
         'photo_path',
     ];
+
+    
 }
 
 

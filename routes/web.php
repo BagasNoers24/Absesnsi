@@ -1,16 +1,18 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\KaryawanController;
-use App\Http\Controllers\AbsensiController;
-use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ReportAdmin;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AbsensiController;
+use App\Http\Controllers\KaryawanController;
 use App\Http\Controllers\ValidationController;
 use App\Http\Controllers\JobdeskRecordController;
+use App\Http\Controllers\absensiAdmin;
 
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 Route::middleware([
@@ -30,7 +32,6 @@ Route::middleware([
     Route::get('/absensi', [AbsensiController::class, 'index'])->name('absensi.index'); // Menampilkan daftar absensi
     Route::get('/absensi/create', [AbsensiController::class, 'create'])->name('absensi.create'); // Menampilkan form absensi
     Route::post('/absensi', [AbsensiController::class, 'store'])->name('absensi.store'); // Menyimpan data absensi
-    Route::get('/absensi/show',[AbsensiController::class,'show'])->name('absensi.show');
     Route::resource('absensi', AbsensiController::class);
     
     // Route Admin
@@ -49,6 +50,16 @@ Route::middleware([
     Route::get('/jobdesk', function () {
         return view('jobdesk_records'); 
     });
+
+
+    Route::middleware(['auth:sanctum','adminPage'])->group(function () {
+        Route::get('/admin/report', [ReportAdmin::class, 'index'])->name('admin.report');
+    });
+
+    Route::middleware(['auth:sanctum','adminPage'])->group(function () {
+        Route::get('/admin/absensi', [absensiAdmin::class, 'index'])->name('admin.absensi');
+    });
+
 
     
 

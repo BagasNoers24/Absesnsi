@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Absensi dengan Kamera</title>
+    <title>Absensi Kehadiran Pegawai</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
     <style>
@@ -15,20 +15,6 @@
         #capture {
             display: none;
             margin-top: 10px;
-        }
-        #alert {
-            display: none;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-        }
-        #alert.success {
-            background-color: #d4edda;
-            color: #155724;
-        }
-        #alert.error {
-            background-color: #f8d7da;
-            color: #721c24;
         }
     </style>
 </head>
@@ -52,11 +38,16 @@
                             <i class="fas fa-database mr-2"></i> REPORT DATA
                         </a>
                     </li>
+                    <li class="mb-4">
+                        <a class="flex items-center p-2 hover:bg-gray-700 rounded" href="{{ route('admin.report') }}">
+                            <i class="fas fa-database mr-2"></i> MASTER DATA
+                        </a>
+                    </li>
                 </ul>
             </nav>
             <div class="absolute bottom-4 left-4">
                 <button class="bg-red-600 p-2 rounded-full">
-                    <i class="fas fa-arrow-left text-white"></i>
+                    <a href="{{ route('dashboard') }}" class="fas fa-arrow-left text-white"></a>
                 </button>
             </div>
         </div>
@@ -66,14 +57,28 @@
             <div class="flex justify-between items-center mb-6">
                 <h1 class="text-2xl font-bold">ABSENSI KEHADIRAN PEGAWAI</h1>
                 <div class="flex items-center">
-                    <span class="mr-2">Users</span>
+                    <span class="mr-2">{{ Auth::user()->name }}</span>
                     <div class="bg-gray-300 p-2 rounded-full">
                         <i class="fas fa-user"></i>
                     </div>
                 </div>
             </div>
 
-            <div id="alert" class="alert"></div> <!-- Alert Box -->
+            <!-- Menampilkan pesan error -->
+            @if ($errors->any())
+                <div class="bg-red-500 text-white p-4 rounded mb-4">
+                    @foreach ($errors->all() as $error)
+                        <p>{{ $error }}</p>
+                    @endforeach
+                </div>
+            @endif
+
+            <!-- Menampilkan pesan sukses -->
+            @if (session('success'))
+                <div class="bg-green-500 text-white p-4 rounded mb-4">
+                    {{ session('success') }}
+                </div>
+            @endif
 
             <form action="{{ route('absensi.store') }}" method="POST" enctype="multipart/form-data" class="mt-4" id="absensi-form">
                 @csrf
@@ -81,11 +86,11 @@
                     <div class="w-1/2">
                         <div class="mb-4">
                             <label for="nama" class="block text-gray-700">Nama</label>
-                            <input id="nama" name="nama" type="text" class="w-full p-2 border rounded bg-gray-200" required>
+                            <input id="nama" name="nama" type="text" class="w-full p-2 border rounded bg-gray-200" value="{{ Auth::user()->name }}" readonly>
                         </div>
                         <div class="mb-4">
                             <label for="nik" class="block text-gray-700">NIK</label>
-                            <input id="nik" name="nik" type="text" class="w-full p-2 border rounded bg-gray-200" required>
+                            <input id="nik" name="nik" type="text" class="w-full p-2 border rounded bg-gray-200" value="{{ Auth::user()->nik }}" readonly>
                         </div>
                         <div class="mb-4">
                             <label for="jamabsen" class="block text-gray-700">Jam Absen</label>
@@ -119,18 +124,7 @@
             const captureCanvas = document.getElementById('capture');
             const photoDataInput = document.getElementById('photo_path');
             const absensiForm = document.getElementById('absensi-form');
-            const alertBox = document.getElementById('alert');
             const jamAbsen = document.getElementById('jamabsen');
-
-            // Fungsi untuk menampilkan alert
-            function showAlert(type, message) {
-                alertBox.className = type === 'success' ? 'success' : 'error';
-                alertBox.textContent = message;
-                alertBox.style.display = 'block';
-                setTimeout(() => {
-                    alertBox.style.display = 'none';
-                }, 3000);
-            }
 
             // Fungsi untuk memperbarui waktu
             function updateTime() {
@@ -152,15 +146,14 @@
                 navigator.geolocation.getCurrentPosition(position => {
                     document.getElementById('latitude').value = position.coords.latitude;
                     document.getElementById('longitude').value = position.coords.longitude;
-                }, () => showAlert('error', 'Gagal mendapatkan lokasi. Periksa izin lokasi.'));
+                });
             }
 
             // Akses kamera
             navigator.mediaDevices.getUserMedia({ video: true })
                 .then(stream => {
                     video.srcObject = stream;
-                })
-                .catch(() => showAlert('error', 'Kamera tidak dapat diakses.'));
+                });
 
             absensiForm.addEventListener('submit', function (event) {
                 event.preventDefault();
@@ -171,12 +164,6 @@
                 context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
 
                 photoDataInput.value = captureCanvas.toDataURL('image/png');
-
-                if (photoDataInput.value) {
-                    showAlert('success', 'Absensi berhasil disimpan!');
-                } else {
-                    showAlert('error', 'Absensi gagal, coba lagi.');
-                }
 
                 absensiForm.submit();
             });

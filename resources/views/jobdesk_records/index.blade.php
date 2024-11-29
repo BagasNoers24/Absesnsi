@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jobdesk Records</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" /> </script>
 </head>
 <body class="bg-gray-100">
 
@@ -23,12 +23,17 @@
                             <i class="fas fa-tachometer-alt mr-2"></i> DASHBOARD
                         </a>
                     </li>
+                    <li class="mb-4">
+                        <a class="flex items-center p-2 hover:bg-gray-700 rounded" href="{{ route('jobdesk_records.index') }}">
+                            <i class="fas fa-tachometer-alt mr-2"></i> REPORT
+                        </a>
+                    </li>
                     
                 </ul>
             </nav>
             <div class="absolute bottom-4 left-4">
-                <button class="bg-red-600 p-2 rounded-full" href="absensi">
-                    <i class="fas fa-arrow-left text-white"></i>
+                <button class="bg-red-600 p-2 rounded-full">
+                    <a href="{{ route('absensi.index') }}" class="fas fa-arrow-left text-white"></a>
                 </button>
             </div>
         </div>
@@ -38,7 +43,12 @@
             <div class="flex justify-between items-center mb-6">
                 <h1 class="text-2xl font-bold">Jobdesk Records</h1>
                 <!-- Button Logout -->
-                <a href="{{ route('login') }}" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">Logout</a>
+                <form action="{{ route('logout') }}" method="POST" class="inline">
+                    @csrf
+                    <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
+                        Logout
+                    </button>
+                </form>
             </div>
 
             @if(session('success'))
@@ -109,7 +119,7 @@
                 </div>
             </form>
 
-            <h2 class="text-xl font-semibold mt-8">Daftar Jobdesk Records</h2>
+            {{-- <h2 class="text-xl font-semibold mt-8">Daftar Jobdesk Records</h2>
             <table class="min-w-full table-auto mt-4 border-collapse">
                 <thead>
                     <tr class="bg-gray-300">
@@ -135,7 +145,7 @@
                         </tr>
                     @endforeach
                 </tbody>
-            </table>
+            </table> --}}
         </div>
     </div>
 

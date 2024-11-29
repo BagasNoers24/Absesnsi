@@ -54,6 +54,7 @@
                 @endforeach
             </tbody>
         </table>
+        <a href="{{ route('dashboard') }}" class="btn btn-secondary">Kembali</a>            
     </div>
 </body>
 </html>
