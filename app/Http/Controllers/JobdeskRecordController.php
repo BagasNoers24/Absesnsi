@@ -6,19 +6,25 @@ use App\Models\JobdeskRecord;
 // use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+
 
 class JobdeskRecordController extends Controller
 {
     public function index()
 {
-    $records = JobdeskRecord::all(); // Menggunakan Eloquent
-    $jobdesks = JobdeskRecord::distinct('jobdesk')->get(); // Ambil semua jobdesk unik
+    // Mengambil data jobdesk unik
+    $jobdesks = JobdeskRecord::distinct('jobdesk')->get(); 
+
+    // Mengambil data lainnya
+    $records = JobdeskRecord::all();
     $users = DB::table('users')->get();
     $days = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'];
 
+    // Kembalikan ke view dengan data yang diperlukan
     return view('jobdesk_records.index', compact('records', 'jobdesks', 'users', 'days'));
-}
 
+}
 
 public function store(Request $request)
 {

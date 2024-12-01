@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class JobdeskRecordsSeeder extends Seeder
 {
@@ -18,8 +19,8 @@ class JobdeskRecordsSeeder extends Seeder
                 'target' => 30,
                 'average' => (20 / 30) * 100,
                 'keterangan' => null,
-                'created_at' => now(),
-                'updated_at' => now(),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ],
             [
                 'jobdesk' => 'Valins Service',
@@ -29,8 +30,8 @@ class JobdeskRecordsSeeder extends Seeder
                 'target' => 100,
                 'average' => (80 / 100) * 100,
                 'keterangan' => null,
-                'created_at' => now(),
-                'updated_at' => now(),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ],
             [
                 'jobdesk' => 'Drop Only',
@@ -40,8 +41,8 @@ class JobdeskRecordsSeeder extends Seeder
                 'target' => 300,
                 'average' => (150 / 300) * 100,
                 'keterangan' => null,
-                'created_at' => now(),
-                'updated_at' => now(),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ],
             [
                 'jobdesk' => 'Validasi Egbis',
@@ -51,8 +52,8 @@ class JobdeskRecordsSeeder extends Seeder
                 'target' => 50,
                 'average' => (40 / 50) * 100,
                 'keterangan' => null,
-                'created_at' => now(),
-                'updated_at' => now(),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ],
             [
                 'jobdesk' => 'Rekon Valins PSB',
@@ -62,8 +63,8 @@ class JobdeskRecordsSeeder extends Seeder
                 'target' => 200,
                 'average' => (150 / 200) * 100,
                 'keterangan' => 'Sakit',
-                'created_at' => now(),
-                'updated_at' => now(),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ],
         ]);
     }

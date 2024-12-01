@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jobdesk Records</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" /> </script>
 </head>
@@ -70,6 +71,7 @@
                                     <option value="{{ $jobdesk->jobdesk }}" data-target="{{ $jobdesk->target }}">{{ $jobdesk->jobdesk }}</option>
                                 @endforeach
                             </select>
+                            
                         </div>
                         
                         <div class="mb-4">
@@ -150,21 +152,39 @@
     </div>
 
     <script>
-        $(document).ready(function() {
-            $('#jobdesk').change(function() {
+        $(document).ready(function () {
+            // Update target field when jobdesk changes
+            $('#jobdesk').on('change', function () {
                 var selectedJobdesk = $(this).find('option:selected');
                 var target = selectedJobdesk.data('target');
-                $('#target').val(target);
-
-                // Automatically calculate average when perolehan changes
-                $('#perolehan').on('input', function() {
-                    var perolehan = $(this).val();
-                    var average = (perolehan / target) * 100;
-                    $('#average').val(average.toFixed(2)); // Showing average as a percentage
-                });
+    
+                // Set target field
+                $('#target').val(target || 0);
+    
+                // Recalculate average if perolehan is already entered
+                calculateAverage();
             });
+    
+            // Recalculate average when perolehan changes
+            $('#perolehan').on('input', function () {
+                calculateAverage();
+            });
+    
+            // Function to calculate average
+            function calculateAverage() {
+                var target = parseFloat($('#target').val()) || 0;
+                var perolehan = parseFloat($('#perolehan').val()) || 0;
+    
+                if (target > 0) {
+                    var average = (perolehan / target) * 100;
+                    $('#average').val(average.toFixed(2)); // Set average field
+                } else {
+                    $('#average').val('0.00'); // Default to 0 if no target
+                }
+            }
         });
     </script>
+    
 
 </body>
 </html>
