@@ -17,6 +17,7 @@ class CreateAbsensisTable extends Migration
             $table->decimal('longitude', 11, 8);
             $table->string('photo_path')->nullable();
             $table->timestamps();
+            $table->string('status')->nullable();
         });
     }
 

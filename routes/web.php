@@ -26,7 +26,7 @@ Route::middleware([
     })->name('dashboard');
 
     // Route untuk Karyawan CRUD
-    Route::resource('karyawan', KaryawanController::class);
+    Route::resource('karyawan', KaryawanController::class)->middleware('adminPage');
 
     // Route untuk absensi
     Route::get('/absensi', [AbsensiController::class, 'index'])->name('absensi.index'); // Menampilkan daftar absensi

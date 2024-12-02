@@ -53,7 +53,6 @@
         <main class="flex-1 p-6">
             <h1 class="text-2xl font-bold mb-4">Laporan Absensi</h1>
             <div class="bg-white rounded-lg shadow-md p-4">
-                
                 <table class="min-w-full bg-white border border-gray-300 rounded-lg shadow-md">
                     <thead>
                         <tr class="bg-gray-800 text-white">
@@ -68,10 +67,19 @@
                         <tr class="hover:bg-gray-100">
                             <td class="py-3 px-4 border-b text-center">{{ $absensi->nama }}</td>
                             <td class="py-3 px-4 border-b text-center">{{ $absensi->nik }}</td>
-                            <td class="py-3 px-4 border-b text-center">{{ $absensi->jamabsen }}</td>
+                            <td class="py-3 px-4 border-b text-center">
+                                <span 
+                                    class="px-2 py-1 rounded 
+                                    @if(\Carbon\Carbon::parse($absensi->jamabsen)->format('H:i') <= '08:00') 
+                                        bg-green-500 text-white 
+                                    @else 
+                                        bg-orange-500 text-white 
+                                    @endif">
+                                    {{ $absensi->jamabsen }}
+                                </span>
+                            </td>
                             <td class="py-3 px-4 border-b text-center">
                                 @if($absensi->photo_path)
-                                    <!-- Gambar kecil yang bisa diklik untuk melihat versi besar -->
                                     <img src="{{ asset('storage/' . $absensi->photo_path) }}" 
                                          alt="Foto Absensi" 
                                          class="h-16 w-16 object-cover rounded-full cursor-pointer" 
@@ -80,7 +88,6 @@
                                     <span class="text-red-500">Foto tidak tersedia</span>
                                 @endif
                             </td>
-                            
                         </tr>
                         @endforeach
                     </tbody>
@@ -89,32 +96,28 @@
         </main>
 
         <!-- Modal untuk menampilkan gambar besar -->
-<div id="imageModal" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center z-50">
-    <div class="relative bg-white p-4 rounded-lg">
-        <!-- Tombol Close yang berwarna -->
-        <button onclick="closeModal()" class="absolute top-2 right-2 bg-red-600 text-white font-bold px-4 py-2 rounded-full hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500">
-            &times; Close
-        </button>
-        <!-- Gambar besar yang akan ditampilkan -->
-        <img id="modalImage" src="" alt="Foto Absensi" class="w-full h-auto max-w-lg mx-auto">
+        <div id="imageModal" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center z-50">
+            <div class="relative bg-white p-4 rounded-lg">
+                <button onclick="closeModal()" class="absolute top-2 right-2 bg-red-600 text-white font-bold px-4 py-2 rounded-full hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500">
+                    &times; Close
+                </button>
+                <img id="modalImage" src="" alt="Foto Absensi" class="w-full h-auto max-w-lg mx-auto">
+            </div>
+        </div>
     </div>
-</div>
 
-<script>
-    // Fungsi untuk membuka modal dan menampilkan gambar besar
-    function openModal(imageUrl) {
-        const modal = document.getElementById('imageModal');
-        const modalImage = document.getElementById('modalImage');
-        modalImage.src = imageUrl;
-        modal.classList.remove('hidden'); // Menampilkan modal
-    }
+    <script>
+        function openModal(imageUrl) {
+            const modal = document.getElementById('imageModal');
+            const modalImage = document.getElementById('modalImage');
+            modalImage.src = imageUrl;
+            modal.classList.remove('hidden');
+        }
 
-    // Fungsi untuk menutup modal
-    function closeModal() {
-        const modal = document.getElementById('imageModal');
-        modal.classList.add('hidden'); // Menyembunyikan modal
-    }
-</script>
-    </div>
+        function closeModal() {
+            const modal = document.getElementById('imageModal');
+            modal.classList.add('hidden');
+        }
+    </script>
 </body>
 </html>
