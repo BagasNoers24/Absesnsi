@@ -52,21 +52,54 @@
         <main class="flex-1 p-6">
             <h1 class="text-2xl font-bold mb-6">Admin Report</h1>
 
-            <!-- Filter by days -->
-            <div class="mb-4">
-                <form action="{{ route('admin.report') }}" method="GET" class="flex items-center space-x-4">
-                    <label for="days" class="text-gray-700 font-semibold">Tampilkan:</label>
-                    <select name="days" id="days" class="p-2 border rounded bg-gray-200">
-                        <option value="7" {{ request('days') == 7 ? 'selected' : '' }}>7 Hari Terakhir</option>
-                        <option value="30" {{ request('days') == 30 ? 'selected' : '' }}>30 Hari Terakhir</option>
-                        <option value="90" {{ request('days') == 90 ? 'selected' : '' }}>90 Hari Terakhir</option>
-                        <option value="365" {{ request('days') == 365 ? 'selected' : '' }}>1 Tahun Terakhir</option>
-                    </select>
-                    <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
-                        Terapkan
-                    </button>
-                </form>
-            </div>
+            <!-- Di dalam filter section -->
+<div class="mb-4">
+    <form action="{{ route('admin.report') }}" method="GET" class="flex items-center space-x-4">
+        <div>
+            <label class="block text-gray-700 font-semibold mb-1">Tanggal Mulai</label>
+            <input 
+                type="date" 
+                name="start_date" 
+                value="{{ $startDate }}" 
+                class="p-2 border rounded bg-gray-200"
+            >
+        </div>
+        <div>
+            <label class="block text-gray-700 font-semibold mb-1">Tanggal Akhir</label>
+            <input 
+                type="date" 
+                name="end_date" 
+                value="{{ $endDate }}" 
+                class="p-2 border rounded bg-gray-200"
+            >
+        </div>
+        <div>
+            <label class="block text-gray-700 font-semibold mb-1">Jobdesk</label>
+            <select 
+                name="jobdesk" 
+                class="p-2 border rounded bg-gray-200"
+            >
+                <option value="">Semua Jobdesk</option>
+                @foreach($jobdesks as $jobdesk)
+                    <option 
+                        value="{{ $jobdesk }}" 
+                        {{ $selectedJobdesk == $jobdesk ? 'selected' : '' }}
+                    >
+                        {{ $jobdesk }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+        <div class="self-end">
+            <button 
+                type="submit" 
+                class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+            >
+                Terapkan
+            </button>
+        </div>
+    </form>
+</div>
 
             <!-- Records Table -->
             <table class="min-w-full table-auto mt-4 border-collapse">
