@@ -12,13 +12,13 @@ class AbsensiController extends Controller
     public function index()
 {
     $absensis = Absensi::all()->map(function ($absensi) {
-        // Tentukan status absensi
-        $batasWaktu = '08:00:00';
-        $absensi->status = ($absensi->jamabsen <= $batasWaktu) ? 'Tepat Waktu' : 'Terlambat';
-        $absensi->warna = ($absensi->jamabsen <= $batasWaktu) ? 'text-green-500' : 'text-orange-500';
-
+        $absensi->hari = \Carbon\Carbon::parse($absensi->created_at)->translatedFormat('l');
+        $absensi->tanggal = \Carbon\Carbon::parse($absensi->created_at)->format('d-m-Y');
+        $absensi->status = ($absensi->jamabsen <= '08:00:00') ? 'Tepat Waktu' : 'Terlambat';
+        $absensi->warna = ($absensi->jamabsen <= '08:00:00') ? 'text-green-500' : 'text-orange-500';
         return $absensi;
     });
+    
 
     return view('absensi.index', compact('absensis'));
 }

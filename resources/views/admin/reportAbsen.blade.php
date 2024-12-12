@@ -58,6 +58,8 @@
                         <tr class="bg-gray-800 text-white">
                             <th class="py-3 px-4 border-b text-center">Nama</th>
                             <th class="py-3 px-4 border-b text-center">Nik</th>
+                            <th class="py-3 px-4 border-b text-center">Hari</th>
+                            <th class="py-3 px-4 border-b text-center">Tanggal</th>
                             <th class="py-3 px-4 border-b text-center">Jam</th>
                             <th class="py-3 px-4 border-b text-center">Gambar Absensi</th>
                         </tr>
@@ -67,9 +69,10 @@
                         <tr class="hover:bg-gray-100">
                             <td class="py-3 px-4 border-b text-center">{{ $absensi->nama }}</td>
                             <td class="py-3 px-4 border-b text-center">{{ $absensi->nik }}</td>
+                            <td class="py-3 px-4 border-b text-center">{{ \Carbon\Carbon::parse($absensi->created_at)->translatedFormat('l') }}</td>
+                            <td class="py-3 px-4 border-b text-center">{{ \Carbon\Carbon::parse($absensi->created_at)->format('d-m-Y') }}</td>
                             <td class="py-3 px-4 border-b text-center">
-                                <span 
-                                    class="px-2 py-1 rounded 
+                                <span class="px-2 py-1 rounded 
                                     @if(\Carbon\Carbon::parse($absensi->jamabsen)->format('H:i') <= '08:00') 
                                         bg-green-500 text-white 
                                     @else 
@@ -91,6 +94,7 @@
                         </tr>
                         @endforeach
                     </tbody>
+                    
                 </table>
             </div>
         </main>
